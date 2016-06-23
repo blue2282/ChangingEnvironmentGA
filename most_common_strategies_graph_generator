@@ -1,0 +1,89 @@
+library (ggplot2)
+library(reshape2)
+
+
+#makes graph of most common strategy
+most_common_strategy <- read.csv("ChangingEnvironmentGA/coevolution/most_common_tft_seeded_coevolution_high_mutation_ud50.csv")
+
+
+most_common_strategy$Condition <- as.factor(as.numeric(as.character(most_common_strategy$Condition)))
+most_common_strategy$Common_Strategy <- as.character(most_common_strategy$Common_Strategy)
+
+
+subset_data = subset( most_common_strategy, Condition != .75 & Condition != 10)
+
+dat = dcast(subset_data, Common_Strategy ~ Condition, fun.aggregate = length)
+dat.melt = melt(dat, id.vars = "Common_Strategy")
+
+dat.melt <- within(dat.melt,
+                   Common_Strategy <- factor(Common_Strategy, #levels=unique(subset_data$Common_Strategy),
+                                             labels=c("AD", 1, 2, 3, 4, 5, 6, 7, 8, 9, "TFT", 10)))
+
+
+dat.melt <- within(dat.melt,
+                   Common_Strategy <- factor(Common_Strategy,
+                                      levels=c("00000001~111~", "0111~11~", "0011~11~", "0001~11~", "0101~11~", "01~1~","0~~")))
+
+
+
+dat.melt$strat <- ifelse(is.numeric(dat.melt$Common_Strategy), dat.melt$Common_Strategy, "Other")
+
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy") + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+  scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black", "brown"))
+ggsave("Most_Common_Strategies_Coevolution_TFT_init_low_mutationrate.png", width = 7, height = 5, units = "in")
+
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy", labels=c("0111~11", "0101~11", "TFT", "AD")) + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+  scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black", "brown"))
+ggsave("Most_Common_Strategies_Coevolution_TFT_init_low_mutationrate.png", width = 7, height = 5, units = "in")
+
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy", labels=c("0111~11", "0101~11", "TFT", "AD")) + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+  scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black", "brown"))
+ggsave("Most_Common_Strategies_Coevolution_TFT_init_low_mutationrate.png", width = 7, height = 5, units = "in")
+
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy", labels=c("0011~11", "TFT", "AD")) + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+  scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black", "brown"))
+ggsave("Most_Common_Strategies_Coevolution_TFT_init_high_mutationrate.png", width = 7, height = 5, units = "in")
+
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy", labels=c("TFT", "AD")) + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+  scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black"))
+ggsave("Most_Common_Strategies_Coevolution_MutationRate.01.png", width = 7, height = 5, units = "in")
+
+ggplot(dat.melt, aes(x = Common_Strategy,y = value, fill = variable)) +
+  geom_bar(position="dodge", stat = "identity") + 
+  #geom_text(aes(label = value), position = position_dodge(width = .8), vjust = -0.5) +
+  theme_minimal() + scale_x_discrete("Strategy", labels=c("3TFT","2TFT","TFT","AD")) + scale_y_continuous("Frequency") +
+  theme(axis.line = element_line(), axis.title.x = element_text(size=20), axis.text.x = element_text(size=18), legend.title = element_text(size=18), axis.title.y = element_text(size=20), axis.text.y = element_text(size=18), legend.text = element_text(size=18), panel.grid.major = element_blank(), 
+        panel.background = element_blank(), panel.grid.minor = element_blank(), legend.position="bottom") + guides(fill=guide_legend(title.hjust=.5, title.position="top")) +
+    scale_fill_manual("Memory Cost", values=c("red","blue", "darkgreen", "purple", "black"))
+
+ggsave("Most_Common_Strategies_Static_Competitor_More_Values.png", width = 7, height = 5, units = "in")
