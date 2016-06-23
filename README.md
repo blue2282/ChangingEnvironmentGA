@@ -8,11 +8,11 @@ Mikaela Leas, Riley Annis, Josh Nahum, Emily Dolson
 Numpy, Scipy, Cython
 
 ###Necessary Files:
-main.py
-pd_org.py
-pd_selection.py
-pd_tournament.py
-pd_config.ini
+* main.py
+* pd_org.py
+* pd_selection.py
+* pd_tournament.py
+* pd_config.ini
 
 ###Config File Arguenments:
 * Necessary for pd_orgs
